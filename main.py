@@ -1,16 +1,46 @@
-# This is a sample Python script.
+from fastapi import FastAPI
+import requests
+from fastapi import Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = FastAPI()
+#app.mount("/static", StaticFiles(directory="static"), name="static")
+
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/posts")
+def get_posts():
+    url = "https://jsonplaceholder.typicode.com/posts"
+    response = requests.get(url)
+    return response.json()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.get("/posts/{id}")
+def get_posts(id):
+    url = "https://jsonplaceholder.typicode.com/posts/"+id
+    response = requests.get(url)
+    #return response.json()
+    return templates.TemplateResponse("post.html", {"request": request, "id": id})
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@app.get("/comments")
+def get_posts():
+    url = "https://jsonplaceholder.typicode.com/comments"
+    response = requests.get(url)
+    slownik=list(response.json())[:10]
+    print(slownik[0]["body"])
+    return response.json()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+@app.get("/users")
+def get_posts():
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    return response.json()
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
