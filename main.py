@@ -10,14 +10,18 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def read_root(request: Request, page: int = 1):
+    response = requests.get(f"https://jsonplaceholder.typicode.com/posts?_page={page}&_limit=10")
+    posts = response.json()
+    total_count = int(response.headers["x-total-count"])
+    total_pages = (total_count + 9) // 10
+    return templates.TemplateResponse("index.html", {"request": request, "posts": posts, "total_pages": total_pages, "current_page": page})
 
 @app.get("/posts")
-def get_posts():
+def get_posts(request: Request):
     url = "https://jsonplaceholder.typicode.com/posts"
     response = requests.get(url)
-    return response.json()
+    return templates.TemplateResponse("posts.html", {'request':request, 'context':response.json()})
 
 
 @app.get("/post/{id}")

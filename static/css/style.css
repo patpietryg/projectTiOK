@@ -1,0 +1,21 @@
+.posts {
+	margin-bottom: 20px;
+}
+
+.post {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+}
+
+.comments-link {
+	margin-top: 10px;
+}
+
+.pagination {
+	margin-top: 20px;
+}
+
+.pagination a {
+	display:
