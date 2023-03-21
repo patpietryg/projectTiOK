@@ -1,21 +1,32 @@
+body{
+    font-family: 'Lato', sans-serif;
+    background-color: #f9f9f9;
+}
+
 .posts {
 	margin-bottom: 20px;
 }
 
-.post {
+.post, .post:hover, .post:link, .post:visited, .post:active {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+	text-decoration: none;
+}
+
+.comment {
 	margin-bottom: 20px;
 	padding: 10px;
 	border: 1px solid #ccc;
 	background-color: #f9f9f9;
 }
 
-.comments-link {
+.comments-link, .comments-link:hover, .comments-link:link, .comments-link:visited, .comments-link:active{
 	margin-top: 10px;
+	text-decoration: none;
 }
 
 .pagination {
 	margin-top: 20px;
 }
-
-.pagination a {
-	display:

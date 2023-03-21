@@ -21,6 +21,7 @@
         <p class="comments-link"><a href="#">{{ post.comments_count }} comments</a></p>
     </div>
     {% endfor %}
+    <p>{{current_page}}</p>
     <div id="pagination">
         {% if current_page > 1 %}
         <a href="/?page=1">&laquo;</a>
