@@ -51,6 +51,7 @@ def get_posts(request: Request, id: str):
     url = "https://jsonplaceholder.typicode.com/posts/"+id
     response = requests.get(url)
     post = response.json()
+
     print(post)
     return templates.TemplateResponse("post.html", {'request':request, 'post':post})
 
