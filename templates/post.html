@@ -8,8 +8,12 @@
     <h1>{{post.title}}</h1>
     <p>{{post.body}}</p>
 
-    {% for post in posts %}
-
+    {% for comment in comments %}
+    <div class="comment">
+        <h2>{{ comment.email }}</h2>
+        <h3>{{ comment.name }}</h3>
+        <p>{{ comment.body }} </p>
+    </div>
     {% endfor %}
 </body>
 </html>
