@@ -16,7 +16,7 @@
 
     {% for post in posts %}
     <div class="post">
-        <h2>{{ post.title }}</h2>
+        <h2><a href="/post/{{ post.id }}">{{ post.title }}</a></h2>
          <p>{% if post.body|length <= 40 %}{{ post.body }}{% else %}{{ post.body[:40] }}...{% endif %}</p>
         <p>{{ post.comments_count }} comments</p>
     </div>
@@ -34,7 +34,7 @@
         {% endif %}
         {% endfor %}
         {% if current_page < total_pages %}
-        <a href="/?page={{ current_page + 1 }}">&gt;</a>
+        <a href="/?page={{ current_page + 1}}">&gt;</a>
         <a href="/?page={{ total_pages }}">&raquo;</a>
         {% endif %}
     </div>
