@@ -6,10 +6,19 @@
 </head>
 <body>
     <h1>Moja strona</h1>
+    <div>
+        <form method="GET" action="/">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
     {% for post in posts %}
     <div class="post">
         <h2>{{ post.title }}</h2>
          <p>{% if post.body|length <= 40 %}{{ post.body }}{% else %}{{ post.body[:40] }}...{% endif %}</p>
+        <p>{{ post.comments_count }} comments</p>
     </div>
     {% endfor %}
     <div id="pagination">
