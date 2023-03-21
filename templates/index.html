@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Moja strona</title>
-    <link rel="stylesheet" type="static/css" href="style.css">
+    <title id="title"></title>
+<!--    <link rel="stylesheet" href="style.css" type="static/css">-->
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
-    <h1>Moja strona</h1>
-    <div>
+    <div class="home-link"><h1><a href="/">Moja strona</a></h1></div>
+    <div class="search">
         <form method="GET" action="/">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search" value="{{xyz}}">
@@ -18,11 +19,14 @@
     <div class="post">
         <h2><a href="/post/{{ post.id }}">{{ post.title }}</a></h2>
          <p>{% if post.body|length <= 40 %}{{ post.body }}{% else %}{{ post.body[:40] }}...{% endif %}</p>
-        <p class="comments-link"><a href="#">{{ post.comments_count }} comments</a></p>
+        <p ><a class="comments-link" href="/post/{{ post.id }}">{{ post.comments_count }} comments</a></p>
     </div>
     {% endfor %}
-    <div id="pagination">
-        {% if current_page > 1 %}
+    <div class="pagination">
+        {% if current_page > 1 and xyz!="" %}
+        <a href="/?search={{xyz}}&page=1">&laquo;</a>
+        <a href="/?search={{xyz}}&page={{ current_page - 1 }}">&lt;</a>
+        {% elif current_page > 1 and xyz=="" %}
         <a href="/?page=1">&laquo;</a>
         <a href="/?page={{ current_page - 1 }}">&lt;</a>
         {% endif %}
@@ -30,12 +34,15 @@
         {% if page == current_page %}
         <span class="active">{{ page }}</span>
         {% elif xyz!="" %}
-        <a href="/?search={{xyz}}&?page={{ page }}">{{ page }}</a>
+        <a href="/?search={{xyz}}&page={{ page }}">{{ page }}</a>
         {% else %}
         <a href="/?page={{ page }}">{{ page }}</a>
         {% endif %}
         {% endfor %}
-        {% if current_page < total_pages %}
+        {% if current_page < total_pages and xyz!=""%}
+        <a href="/?search={{xyz}}&page={{ current_page + 1 }}">&gt;</a>
+        <a href="/?search={{xyz}}&page={{ total_pages }}">&raquo;</a>
+        {% elif current_page < total_pages and xyz==""%}
         <a href="/?page={{ current_page + 1 }}">&gt;</a>
         <a href="/?page={{ total_pages }}">&raquo;</a>
         {% endif %}

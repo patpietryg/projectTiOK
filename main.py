@@ -34,6 +34,7 @@ async def read_root(request: Request, page: int = 1, search: str = ""):
     posts = response.json()
     total_count = int(response.headers["x-total-count"])
     total_pages = (total_count + 9) // 10
+    print(total_pages)
     for post in posts:
         post["comments_count"] = get_comments_count(post["id"])
     return templates.TemplateResponse("index.html", {"request": request, "posts": posts, "total_pages": total_pages, "current_page": page, "xyz": search})
@@ -51,8 +52,6 @@ def get_posts(request: Request, id: str):
     url = "https://jsonplaceholder.typicode.com/posts/"+id
     response = requests.get(url)
     post = response.json()
-
-
     print(post)
     return templates.TemplateResponse("post.html", {'request':request, 'post':post})
 
