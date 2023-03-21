@@ -50,8 +50,9 @@ def get_posts(request: Request):
 def get_posts(request: Request, id: str):
     url = "https://jsonplaceholder.typicode.com/posts/"+id
     response = requests.get(url)
-    #return response.json()
-    return templates.TemplateResponse("post.html", {'request':request, 'context':response.json()})
+    post = response.json()
+    print(post)
+    return templates.TemplateResponse("post.html", {'request':request, 'post':post})
 
 
 @app.get("/comments")

@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Hello {{ context['id'] }}</title>
+    <title>Post id={{post.id}}</title>
+    <link rel="stylesheet" type="static/css" href="style.css">
 </head>
 <body>
-<p>{{ context['body'] }}</p>
+    <h1>{{post.title}}</h1>
+    <p>{{post.body}}</p>
+
+    {% for post in posts %}
+
+    {% endfor %}
 </body>
 </html>
