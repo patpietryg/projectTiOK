@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Request
 import requests
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -39,41 +38,26 @@ async def read_root(request: Request, page: int = 1, search: str = ""):
     return templates.TemplateResponse("index.html", {"request": request, "posts": posts, "total_pages": total_pages, "current_page": page, "xyz": search})
 
 
-@app.get("/posts")
-def get_posts(request: Request):
-    url = "https://jsonplaceholder.typicode.com/posts"
-    response = requests.get(url)
-    return templates.TemplateResponse("posts.html", {'request':request, 'context':response.json()})
-
-
 @app.get("/post/{id}")
 def get_posts(request: Request, id: str):
-    url = "https://jsonplaceholder.typicode.com/posts/"+id
-    url_comments = "https://jsonplaceholder.typicode.com/comments?postId="+id
-    response_comments = requests.get(url_comments)
-    comments = response_comments.json()
-    response = requests.get(url)
-    post = response.json()
-    return templates.TemplateResponse("post.html", {'request':request, 'post':post, 'comments':comments})
+    post_url = f"https://jsonplaceholder.typicode.com/posts/{id}"
+    comments_url = f"https://jsonplaceholder.typicode.com/comments?postId={id}"
 
+    post_response = requests.get(post_url)
+    post = post_response.json()
 
-@app.get("/comments")
-def get_posts():
-    url = "https://jsonplaceholder.typicode.com/comments"
-    response = requests.get(url)
-    print(response.json())
-    slownik=list(response.json())[:10]
-    print(slownik[0])
-    return response.json()
+    user_id = post.get('userId')
+    user_url = f"https://jsonplaceholder.typicode.com/users/{user_id}"
+    user_response = requests.get(user_url)
+    user = user_response.json()
 
+    comments_response = requests.get(comments_url)
+    comments = comments_response.json()
 
-@app.get("/users")
-def get_posts():
-    url = "https://jsonplaceholder.typicode.com/users"
-    response = requests.get(url)
-    return response.json()
-
+    return templates.TemplateResponse("post.html",
+                                      {'request': request, 'post': post, 'comments': comments, 'user': user})
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
