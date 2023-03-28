@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 import requests
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -39,17 +40,23 @@ async def read_root(request: Request, page: int = 1, search: str = ""):
 
 
 @app.get("/post/{id}")
-def get_posts(request: Request, id: str):
+def get_post(request: Request, id: str):
     post_url = f"https://jsonplaceholder.typicode.com/posts/{id}"
     comments_url = f"https://jsonplaceholder.typicode.com/comments?postId={id}"
 
     post_response = requests.get(post_url)
+    if post_response.status_code == 404:
+        return JSONResponse(status_code=404, content='Invalid post id')
     post = post_response.json()
 
-    user_id = post.get('userId')
-    user_url = f"https://jsonplaceholder.typicode.com/users/{user_id}"
-    user_response = requests.get(user_url)
-    user = user_response.json()
+    try:
+        user_id = post.get('userId')
+        user_url = f"https://jsonplaceholder.typicode.com/users/{user_id}"
+        user_response = requests.get(user_url)
+        user = user_response.json()
+    except (requests.exceptions.RequestException, ValueError, KeyError) as e:
+        print(f"Error fetching user for post {id}: {e}")
+        user = {}
 
     comments_response = requests.get(comments_url)
     comments = comments_response.json()
