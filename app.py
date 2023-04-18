@@ -2,12 +2,17 @@ from fastapi import FastAPI, Request
 import requests
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+favicon_path = 'favicon.ico'
 
 templates = Jinja2Templates(directory="templates")
+
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
 
 
 def get_comments_count(post_id):
