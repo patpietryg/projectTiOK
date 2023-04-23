@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Post id={{post.id}}</title>
-    <link rel="stylesheet" type="static/css" href="style.css">
+    <title>Post {{post.id}}</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
-    <h1>{{post.title}}</h1>
-    <h2>{{ user.name }}</h2>
+    <div><h1><a href="/">Moja strona</a></h1></div>
+    <div class="post"><h2>{{post.title}}</h2>
+    <h3>{{ user.name }}</h3>
     <p>{{post.body}}</p>
+        </div>
 
     {% for comment in comments %}
     <div class="comment">
-        <h2>{{ comment.email }}</h2>
-        <h3>{{ comment.name }}</h3>
-        <p>{{ comment.body }} </p>
-    </div>
+        <h5>{{ comment.email }}</h5>
+        <h6>{{ comment.name }}</h6>
+        <p>{{ comment.body }} </p></div>
     {% endfor %}
+
 </body>
 </html>

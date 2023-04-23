@@ -1,4 +1,3 @@
-
 a:-webkit-any-link {
     color: #000000;
     cursor: pointer;
@@ -13,6 +12,12 @@ a:-webkit-any-link {
 	background-color: #f9f9f9;
 }
 
+.comment {
+	border: 1px solid #ccc;
+	margin-top: 20px;
+	background-color: #ff0055;
+}
+
 .comments-link {
 	margin-top: 10px;
 }
@@ -20,3 +25,4 @@ a:-webkit-any-link {
 .pagination {
 	margin-top: 20px;
 }
+

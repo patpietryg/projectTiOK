@@ -24,7 +24,6 @@ class TestReadRoot(unittest.TestCase):
     def test_read_root(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        # assert other properties of the response
 
 
 class TestGetPost(unittest.TestCase):
