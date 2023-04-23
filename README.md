@@ -7,6 +7,7 @@ Python 3.10
 FastApi  
 Uvicorn  
 Requests
+Jinja2
 
 ## Installation
 1. Clone repo
