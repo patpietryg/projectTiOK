@@ -3,6 +3,7 @@ from app import get_comments_count
 from app import app
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock, patch
+import xmlrunner
 
 
 class TestGetCommentsCount(unittest.TestCase):
@@ -26,13 +27,21 @@ class TestReadRoot(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class TestGetFavicon(unittest.TestCase):
+    def setUp(self):
+        self.client = TestClient(app)
+
+    def test_get_favicon(self):
+        response = self.client.get("/favicon.ico")
+        self.assertEqual(response.status_code, 200)
+
+
 class TestGetPost(unittest.TestCase):
     def setUp(self):
         self.client = TestClient(app)
 
     @patch('requests.get')
     def test_get_posts(self, mock_get):
-        # przygotowanie mocków odpowiedzi z API
         post_id = '1'
         post_response_data = {'userId': 1, 'id': 1, 'title': 'test title', 'body': 'test body'}
         user_response_data = {'id': 1, 'name': 'test name', 'username': 'test username'}
@@ -48,10 +57,8 @@ class TestGetPost(unittest.TestCase):
 
         mock_get.side_effect = [post_response, user_response, comments_response]
 
-        # wykonanie zapytania
         response = self.client.get(f"/post/{post_id}")
 
-        # asercje
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'test title', response.content)
         self.assertIn(b'test body', response.content)
@@ -63,3 +70,7 @@ class TestGetPost(unittest.TestCase):
         with TestClient(app) as client:
             response = client.get("/post/invalid_id")
             self.assertEqual(response.status_code, 404)
+
+
+if __name__ == '__main__':
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='test-reports'))
